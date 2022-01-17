@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
 
-class CounterStorage {
+class LocalStorage {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -22,14 +22,14 @@ class CounterStorage {
       return contents;
     } catch (e) {
       // If encountering an error, return 0
-      return 'nothing';
+      return 'unknown';
     }
   }
 
-  Future<File> writeLogin(String counter) async {
+  Future<File> writeLogin(String userLogin) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString(counter);
+    return file.writeAsString(userLogin);
   }
 }

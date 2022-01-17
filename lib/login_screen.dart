@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_3_1/path_screen.dart';
 import 'package:flutter_task_3_1/shared_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'module/local_file_load.dart';
+import 'module/local_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key, required this.storage}) : super(key: key);
 
-  final CounterStorage storage;
+  final LocalStorage storage;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -16,8 +16,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final textController = TextEditingController();
-  String _saveSharedText = ''; //переменная для сохранения в shared_preferences
-  String _savedPathText = ''; //переменная для сохранения в path
+  String _textInShared = ''; //переменная для сохранения в shared_preferences
+  String _textInPath = ''; //переменная для сохранения в path
 
   Future<bool> _saveText() async {
     String text = textController.text;
@@ -31,14 +31,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<File> _saveTextLocalFile() {
-    _savedPathText = textController.text;
-    return widget.storage.writeLogin(_savedPathText);
+    _textInPath = textController.text;
+    return widget.storage.writeLogin(_textInPath);
   }
 
   void _readTextLocalFile() async {
     await widget.storage.readLogin().then((String value) {
       setState(() {
-        _savedPathText = value;
+        _textInPath = value;
       });
     });
   }
@@ -95,12 +95,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text('Продолжить c shared',
                             style: TextStyle(color: Colors.white)),
                         onPressed: () async {
-                          _saveSharedText = await _getText() ?? ' ';
+                          _textInShared = await _getText() ?? ' ';
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    HelloSharedScreen(login: _saveSharedText)),
+                                    HelloSharedScreen(login: _textInShared)),
                           );
                         }),
                   ],
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    HelloPathScreen(login: _savedPathText)),
+                                    HelloPathScreen(login: _textInPath)),
                           );
                         }),
                   ],

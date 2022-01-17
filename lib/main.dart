@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_3_1/login_screen.dart';
-import 'package:flutter_task_3_1/module/local_file_load.dart';
+import 'package:flutter_task_3_1/module/local_storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: LoginScreen(
-        storage: CounterStorage(),
+        storage: LocalStorage(),
       ),
     );
   }
