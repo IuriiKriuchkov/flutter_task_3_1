@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HelloScreen extends StatelessWidget {
-  HelloScreen({Key? key, required this.login});
+class HelloSharedScreen extends StatelessWidget {
+  const HelloSharedScreen({Key? key, required this.login}) : super(key: key);
   final String login;
 
   @override
