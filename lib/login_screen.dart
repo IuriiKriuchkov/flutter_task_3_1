@@ -56,87 +56,96 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.blue,
         title: const Text('Вход в систему'),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 300,
-              child: TextField(
-                controller: textController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black, width: 1.0),
-                    ),
-                    hintText: 'Введите свой логин'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  controller: textController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black, width: 1.0),
+                      ),
+                      hintText: 'Введите свой логин'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    ElevatedButton(
-                      child: const Text('Сохранить в shared',
-                          style: TextStyle(color: Colors.white)),
-                      onPressed: () async {
-                        await _saveText();
-                      },
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            child: const Text('Сохранить в shared',
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: () async {
+                              await _saveText();
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                              child: const Text('Продолжить c shared',
+                                  style: TextStyle(color: Colors.white)),
+                              onPressed: () async {
+                                _textInShared = await _getText() ?? ' ';
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HelloSharedScreen(login: _textInShared)),
+                                );
+                              }),
+                        ],
+                      ),
                     ),
-                    const SizedBox(
-                      height: 20,
+                  ),
+
+                  Expanded(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                          child: const Text('Сохранить в path',
+                              style: TextStyle(color: Colors.white)),
+                          onPressed: () async {
+                            await _saveTextLocalFile();
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                            child: const Text('Продолжить c path',
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: () {
+                              _readTextLocalFile();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        HelloPathScreen(login: _textInPath)),
+                              );
+                            }),
+                      ],
                     ),
-                    ElevatedButton(
-                        child: const Text('Продолжить c shared',
-                            style: TextStyle(color: Colors.white)),
-                        onPressed: () async {
-                          _textInShared = await _getText() ?? ' ';
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HelloSharedScreen(login: _textInShared)),
-                          );
-                        }),
-                  ],
-                ),
-                const SizedBox(
-                  width: 40,
-                ),
-                Column(
-                  children: [
-                    ElevatedButton(
-                      child: const Text('Сохранить в path',
-                          style: TextStyle(color: Colors.white)),
-                      onPressed: () async {
-                        await _saveTextLocalFile();
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                        child: const Text('Продолжить c path',
-                            style: TextStyle(color: Colors.white)),
-                        onPressed: () {
-                          _readTextLocalFile();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HelloPathScreen(login: _textInPath)),
-                          );
-                        }),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                  ),)
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
